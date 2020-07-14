@@ -28,12 +28,6 @@ public class FirstDemo {
             ret += (a%10);
             ret *= 10;
             a/=10;
-            /*int x = a%10;
-            a = a/10;
-            System.out.print(x);
-            if (a < 10){
-                System.out.println(a);
-            }*/
         }
         ret+= a;
         System.out.println(ret);

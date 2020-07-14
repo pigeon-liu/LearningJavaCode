@@ -52,7 +52,9 @@ public class FirstDemo {
     /*
     * 求两个数的最小公倍数
     * */
+    public static void func5(int a, int b){
 
+    }
     /*
     * 获取一个数二进制序列中所有偶数和奇数位，分别输出二进制序列
     * */

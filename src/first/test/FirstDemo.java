@@ -54,7 +54,7 @@ public class FirstDemo {
         Scanner scanner = new Scanner(System.in);
         int a = scanner.nextInt();
         int b = scanner.nextInt();
-        if (a % b != 0){
+        while (a % b != 0){
             if (a<b){
                 int tem = a;
                 a = b;
@@ -75,7 +75,7 @@ public class FirstDemo {
         int x = scanner.nextInt();
         int y = scanner.nextInt();
         int ret = x*y;
-        if (x % y != 0){
+        while (x % y != 0){
             if (x<y){
                 int tem = x;
                 x = y;
@@ -130,9 +130,9 @@ public class FirstDemo {
         //func2();
         /*int[] arr = {23,768,123,45,232,53};
         func3(arr);*/
-        //func4();
-        //func5();
-        func6();
+        func4();
+        func5();
+        //func6();
         //func7();
     }
 }

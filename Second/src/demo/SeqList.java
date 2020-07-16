@@ -12,7 +12,7 @@ public class SeqList {
         this.arr = new  int[length];
         this.size = 0;
     }
-    
+
     // 打印顺序表
     public void display() {
         for (int i = 0;i<this.size;i++){

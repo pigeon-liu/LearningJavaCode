@@ -1,9 +1,10 @@
 package demo;
 
 class Node{
-    int data;
-    Node next;
-    void Node(int data){
+    public int data;
+    public Node next;
+
+    public Node(int data) {
         this.data = data;
         this.next = null;
     }
@@ -12,7 +13,7 @@ public class MyList {
     public Node head;
     //头插法
     public void addFirst(int data){
-        Node node  = new Node();
+        Node node  = new Node(data);
         if (this.head == null){
             this.head = node;
             return;
@@ -22,7 +23,7 @@ public class MyList {
     }
     //尾插法
     public void addLast(int data){
-        Node node  = new Node();
+        Node node  = new Node(data);
         if (this.head == null){
             this.head = node;
             return;
@@ -34,9 +35,29 @@ public class MyList {
         cur.next = node;
     }
     //任意位置插入,第一个数据节点为0号下标
-    public boolean addIndex(int index,int data){
+    public void addIndex(int index,int data){
+        Node cur = this.head;
+        Node node = new Node(data);
+        if (index == 0 ){
+            addFirst(data);
+            return;
+        }
+        if (index == this.size()){
+            addLast(data);
+            return;
+        }
+        if (index<0||index>this.size()){
+            System.out.println("输入不合法！");
+            return;
+        }
+        while (index-1 != 0){
+            cur = cur.next;
+            index--;
+        }
+        node.next = cur.next;
+        cur.next = node;
 
-        return true;
+        return ;
     }
     //查找是否包含关键字key是否在单链表当中
     public boolean contains(int key){
@@ -50,11 +71,34 @@ public class MyList {
         return false;
     }
     //删除第一次出现关键字为key的节点
+    public Node serchprev(int key){
+        Node prev = this.head;
+        while (prev.next != null){
+            if (prev.next.data == key){
+                return prev;
+            } else {
+                prev = prev.next;
+            }
+        }
+        return null;
+    }
     public void remove(int key){
         Node cur = this.head;
+        if (this.head == null){
+            return;
+        }
+        if (this.head.data == key){
+            this.head = this.head.next;
+            return;
+        }
+        Node prev = serchprev(key);
+        Node del = prev.next;
+        prev.next = del.next;
+
+
         while (cur.next != null){
-            if (cur.next.data== key){
-                cur = cur.next.next;
+            if (cur.data== key){
+                cur = cur.next;
                 return;
             }
             cur = cur.next;
@@ -85,7 +129,7 @@ public class MyList {
 
     public void display(){
         Node cur = this.head;
-        while (cur.next != null){
+        while (cur != null){
             System.out.print(cur.data +" ");
             cur = cur.next;
         }

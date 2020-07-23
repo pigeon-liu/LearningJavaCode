@@ -9,12 +9,16 @@ public class Test1 {
         System.out.println(str1==str2);
         System.out.println(str1==str3);
         System.out.println(str2==str3);
-        String string1 = new String("Acheng");
+        String string1 = new String("Acheng").intern();
         String string2 = new String("Acheng");
         String string3 = new String("Acheng");
         System.out.println(string1==string2);
         System.out.println(string1==string3);
         System.out.println(string2==string3);
+        String str = new String("Acheng").intern();
+        String string = "Acheng";
+        System.out.println(str == string);
+
     }
     public static void main2(String[] args) {
         //字符串比较

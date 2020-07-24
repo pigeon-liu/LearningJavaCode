@@ -32,5 +32,7 @@ public class Test {
         System.out.println(hand2);
         System.out.println("第三个人抓的牌");
         System.out.println(hand3);
+        System.out.println("剩下的牌");
+        System.out.println(decks);
     }
 }

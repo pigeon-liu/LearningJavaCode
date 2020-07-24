@@ -21,14 +21,15 @@ public class CardDemo {
         return deck;
     }
 
-    //洗牌
+    //洗牌过程中的交换
     public static void swap(List<Card> deck,int i ,int j){
         Card tmp = deck.get(i);
         deck.set(i,deck.get(j));
         deck.set(j,tmp);
     }
+    //洗牌
     public static void shuffle(List<Card> deck){
-        Random random = new Random();
+        Random random = new Random();    //生成随机数
         for (int i = deck.size()-1;i>0;i--){
             int j = random.nextInt(i);
             swap(deck,i,j);

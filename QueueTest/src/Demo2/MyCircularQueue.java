@@ -4,7 +4,7 @@ package Demo2;
 public class MyCircularQueue {
     public int[] elem;
     public int front;
-    public int rear;
+    public int rear; //表示当前可以存放数据的下标
     public MyCircularQueue(int k){
         this.elem = new int[k];
     }
@@ -20,6 +20,7 @@ public class MyCircularQueue {
     }
 
     //判空
+    /*当front==raer时，队列为空*/
     public boolean isEmpty(){
         if (this.front == this.rear){
             return true;
@@ -28,6 +29,7 @@ public class MyCircularQueue {
     }
 
     //判满
+    /*浪费一个空间，如果rear的下一个下标是front时，队列满*/
     public boolean isFull(){
         if((this.rear+1) % this.elem.length == this.front) {
             return true;

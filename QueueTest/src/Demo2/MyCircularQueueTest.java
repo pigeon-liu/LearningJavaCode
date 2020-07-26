@@ -9,6 +9,7 @@ public class MyCircularQueueTest {
         myCircularQueue.enQueue(13);
         myCircularQueue.enQueue(25);
         myCircularQueue.enQueue(3);
+        myCircularQueue.enQueue(6);
         System.out.println(myCircularQueue.Front());
         System.out.println(myCircularQueue.Rear());
         System.out.println(myCircularQueue.deQueue());

@@ -99,31 +99,50 @@ public class BinaryTree {
         list.add(root.value);
         return list;
     }
+    /*==============================================================================*/
     // 遍历思路-求结点个数
     static int size = 0;
-    void getSize1(Node root){
+    public int getSize1(Node root){
+        if (root == null){
+            return 0;
+        }
+        size++;
+        getSize1(root.left);
+        getSize1(root.right);
 
+        return size;
     }
     // 子问题思路-求结点个数
     public int getSize2(Node root){
-        return -1;
+        if (root == null) {
+            return 0;
+        }
+        return getSize2(root.left) + getSize2(root.right) +1;
     }
     // 遍历思路-求叶子结点个数
     static int leafSize = 0;
-    public void getLeafSize1(Node root){
-
+    public int getLeafSize1(Node root){
+        if (root == null){
+            return -1;
+        }
+        if (root.left == null && root.right==null){
+            leafSize++;
+        } else {
+            getLeafSize1(root.left);
+            getLeafSize1(root.right);
+        }
+        return leafSize;
     }
     // 子问题思路-求叶子结点个数
     public int getLeafSize2(Node root){
-        return -1;
-    }
-    // 子问题思路-求第 k 层结点个数
-    public int getKLevelSize(Node root){
-        return -1;
-    }
+        if (root == null){
+            return -1;
+        }
+        if (root.left == null && root.right == null){
+            return  1;
+        }
+        return getLeafSize2(root.left) + getLeafSize2(root.right);
 
-    // 获取二叉树的高度
-    public int getHeight(Node root){
-        return -1;
     }
+   
 }

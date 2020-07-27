@@ -1,13 +1,17 @@
+import java.util.ArrayList;
+import java.util.List;
 
 class Node{
     public char value;   //数据域
     public Node left;   //左子树
     public Node right;  //右子树
+
     public Node(char value){
         this.value = value;
     }
 }
 public class BinaryTree {
+    List<Character> list = new ArrayList<>();
     public Node BuildTree(){
         Node A = new Node('A');
         Node B = new Node('B');
@@ -29,14 +33,28 @@ public class BinaryTree {
     }
 
     // 前序遍历   递归实现
-    void preOrderTraversal(Node root){
+    public void preOrderTraversal(Node root){
         if (root == null){
             return;
         }
         System.out.print(root.value + " ");
+
         preOrderTraversal(root.left);
         preOrderTraversal(root.right);
 
+    }
+    //以链表的形式返回前序遍历
+    public List<Character> preorderTraversal(Node root) {
+        List<Character> list = new ArrayList<>();
+        if (root == null){
+            return list;
+        }
+        list.add(root.value);
+        List<Character> left = preorderTraversal(root.left);
+        list.addAll(left);
+        List<Character> right = preorderTraversal(root.right);
+        list.addAll(right);
+        return list;
     }
     // 中序遍历
     void inOrderTraversal(Node root){
@@ -48,8 +66,22 @@ public class BinaryTree {
         inOrderTraversal(root.right);
 
     }
+
+    //以链表的形式返回中序遍历
+
+    public List<Character> inorderTraversal(Node root) {
+        if (root == null){
+            return list;
+        }
+        inorderTraversal(root.left);
+        list.add(root.value);
+        inorderTraversal(root.right);
+        return list;
+    }
+
+
     // 后序遍历
-    void postOrderTraversal(Node root){
+    public void postOrderTraversal(Node root){
         if (root == null){
             return;
         }
@@ -58,6 +90,15 @@ public class BinaryTree {
         System.out.print(root.value + " ");
     }
 
+    public List<Character> postorderTraversal(Node root) {
+        if (root == null){
+            return list;
+        }
+        postorderTraversal(root.left);
+        postorderTraversal(root.right);
+        list.add(root.value);
+        return list;
+    }
     // 遍历思路-求结点个数
     static int size = 0;
     void getSize1(Node root){

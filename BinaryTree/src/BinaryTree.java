@@ -1,3 +1,5 @@
+import com.sun.org.apache.xalan.internal.xsltc.dom.NodeSortRecord;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class BinaryTree {
         Node F = new Node('F');
         Node G = new Node('G');
         Node H = new Node('H');
+        Node I = new Node('I');
 
         A.left = B;
         A.right = C;
@@ -29,6 +32,7 @@ public class BinaryTree {
         E.right = H;
         C.left = F;
         C.right = G;
+        H.left = I;
         return A;
     }
 
@@ -144,5 +148,47 @@ public class BinaryTree {
         return getLeafSize2(root.left) + getLeafSize2(root.right);
 
     }
-   
+
+    // 子问题思路-求第 k 层结点个数
+    public int getKLevelSize(Node root,int k){
+        if (root == null){
+            return 0;
+        } else if (k == 1){
+            return 1;
+        }
+        return getKLevelSize(root.left,k-1) + getKLevelSize(root.right,k-1);
+    }
+
+    // 获取二叉树的高度
+    public int getHeight(Node root){
+        if (root == null) {
+            return 0;
+        }
+        int leftHeight = getHeight(root.left);
+        int rightHeight = getHeight(root.right);
+        return leftHeight > rightHeight ? leftHeight+1 : rightHeight+ 1;
+        //递归两次root.left和root.right，执行时间超出限制
+        //return getHeight(root.left)>getHeight(root.right) ? getHeight(root.left)+1 : getHeight(root.right)+1;
+    }
+    // 查找 val 所在结点，没有找到返回 null
+    // 按照 根 -> 左子树 -> 右子树的顺序进行查找
+    // 一旦找到，立即返回，不需要继续在其他位置查找
+    Node find(Node root, char val){
+        if (root == null){
+            return null;
+        }
+        if (root.value == val){
+            return root;
+        }
+        Node left = find(root.left,val);
+       if (left != null){
+           return left;
+       }
+       Node right = find(root.right,val);
+       if (right != null){
+           return right;
+       }
+       return null;
+    }
+
 }

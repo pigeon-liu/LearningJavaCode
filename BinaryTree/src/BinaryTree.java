@@ -1,7 +1,9 @@
 import com.sun.org.apache.xalan.internal.xsltc.dom.NodeSortRecord;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 class Node{
     public char value;   //数据域
@@ -13,7 +15,7 @@ class Node{
     }
 }
 public class BinaryTree {
-    List<Character> list = new ArrayList<>();
+    //List<Character> list = new ArrayList<>();
     public Node BuildTree(){
         Node A = new Node('A');
         Node B = new Node('B');
@@ -23,16 +25,16 @@ public class BinaryTree {
         Node F = new Node('F');
         Node G = new Node('G');
         Node H = new Node('H');
-        Node I = new Node('I');
+
 
         A.left = B;
         A.right = C;
         B.left = D;
         B.right = E;
-        E.right = H;
+        //E.right = H;
         C.left = F;
         C.right = G;
-        H.left = I;
+
         return A;
     }
 
@@ -73,7 +75,7 @@ public class BinaryTree {
 
     //以链表的形式返回中序遍历
 
-    public List<Character> inorderTraversal(Node root) {
+    /*public List<Character> inorderTraversal(Node root) {
         if (root == null){
             return list;
         }
@@ -81,7 +83,7 @@ public class BinaryTree {
         list.add(root.value);
         inorderTraversal(root.right);
         return list;
-    }
+    }*/
 
 
     // 后序遍历
@@ -94,7 +96,7 @@ public class BinaryTree {
         System.out.print(root.value + " ");
     }
 
-    public List<Character> postorderTraversal(Node root) {
+    /*public List<Character> postorderTraversal(Node root) {
         if (root == null){
             return list;
         }
@@ -102,7 +104,7 @@ public class BinaryTree {
         postorderTraversal(root.right);
         list.add(root.value);
         return list;
-    }
+    }*/
     /*==============================================================================*/
     // 遍历思路-求结点个数
     static int size = 0;
@@ -170,6 +172,7 @@ public class BinaryTree {
         //递归两次root.left和root.right，执行时间超出限制
         //return getHeight(root.left)>getHeight(root.right) ? getHeight(root.left)+1 : getHeight(root.right)+1;
     }
+    
     //查找val所在节点
         /*
         *按照 根 -> 左子树 -> 右子树的顺序进行查找
@@ -339,6 +342,89 @@ public class BinaryTree {
             return isSymmetricChild(leftTree.left,rightTree.right) && isSymmetricChild(leftTree.right,rightTree.left);
         }
         return false;
+    }
 
+    //层序遍历
+    public void levelOrder(Node root){
+        if (root == null){
+            return;
+        }
+        Queue<Node> queue = new LinkedList<>();
+        //入队
+        queue.offer(root);
+        //判断队列是否为空
+        while (!queue.isEmpty()){
+            Node cur = queue.poll();
+            System.out.print(cur.value + " ");
+            if (cur.left != null){
+                queue.offer(cur.left);
+            }
+            if (cur.right != null){
+                queue.offer(cur.right);
+            }
+        }
+        System.out.println();
+    }
+
+    //分层遍历，把每一层的数据放到list当中，再把list放到大的list当中
+    public List<List<Character>> levelorder(Node root) {
+        List<List<Character>> ret = new LinkedList<>();
+        if (root == null){
+            return ret;
+        }
+        Queue<Node> queue = new LinkedList<>();
+        //入队
+        queue.offer(root);
+        //判断队列是否为空
+        while (!queue.isEmpty()) {
+            //每一次进入循环，相当于是每一层的数据
+            //求当前队列长度  size
+            int num = queue.size();
+            List<Character> list = new LinkedList<>();
+            //控制每一层个数
+            while (num > 0) {
+                Node cur = queue.poll();
+                list.add(cur.value);
+                if (cur != null){
+                    if (cur.left != null){
+                        queue.offer(cur.left);
+                    }
+                    if (cur.right != null){
+                        queue.offer(cur.right);
+                    }
+                    num--;
+                }
+            }
+            ret.add(list);
+        }
+        return ret;
+    }
+
+    //判断是否为完全二叉树
+    public boolean isCompleteTree(Node root){
+        if (root == null){
+            return true;
+        }
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()){
+            Node cur1 = queue.poll();
+            if (cur1 != null){
+                queue.offer(cur1.left);
+                queue.offer(cur1.right);
+            } else {
+                break;
+            }
+        }
+
+        while (!queue.isEmpty()){
+            Node cur2 = queue.peek();
+            if (cur2 != null) {
+                return false;
+            } else {
+                queue.poll();
+            }
+        }
+        return true;
     }
 }

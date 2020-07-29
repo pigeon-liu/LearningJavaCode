@@ -32,6 +32,11 @@ public class Test {
         Node m = binaryTree.BuildTree4();
         Node n = binaryTree.BuildTree5();
         System.out.println(binaryTree.isSubTree(m, n));
+        binaryTree.levelOrder(root);
+        System.out.println("====================");
+        System.out.println(binaryTree.levelorder(root));
+        System.out.println("====================");
+        System.out.println(binaryTree.isCompleteTree(root));
 
     }
 }

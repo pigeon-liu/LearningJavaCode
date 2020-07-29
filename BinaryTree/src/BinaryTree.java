@@ -170,9 +170,11 @@ public class BinaryTree {
         //递归两次root.left和root.right，执行时间超出限制
         //return getHeight(root.left)>getHeight(root.right) ? getHeight(root.left)+1 : getHeight(root.right)+1;
     }
-    // 查找 val 所在结点，没有找到返回 null
-    // 按照 根 -> 左子树 -> 右子树的顺序进行查找
-    // 一旦找到，立即返回，不需要继续在其他位置查找
+    //查找val所在节点
+        /*
+        *按照 根 -> 左子树 -> 右子树的顺序进行查找
+        *没有找到返回 null， 一旦找到，立即返回，不需要继续在其他位置查找
+        */
     Node find(Node root, char val){
         if (root == null){
             return null;
@@ -191,4 +193,152 @@ public class BinaryTree {
        return null;
     }
 
+    public Node BuildTree1(){
+        Node A = new Node('A');
+        Node B = new Node('B');
+        Node C = new Node('C');
+        Node D = new Node('D');
+        Node E = new Node('E');
+        Node F = new Node('F');
+        Node G = new Node('G');
+        Node H = new Node('H');
+        Node I = new Node('I');
+
+        A.left = B;
+        A.right = C;
+        B.left = D;
+        B.right = E;
+        E.right = H;
+        C.left = F;
+        C.right = G;
+        H.left = I;
+        return A;
+    }
+
+    public Node BuildTree2(){
+        Node B = new Node('B');
+        Node C = new Node('C');
+        Node D = new Node('D');
+        Node E = new Node('E');
+        Node F = new Node('F');
+        Node G = new Node('G');
+        Node H = new Node('H');
+        Node I = new Node('I');
+
+
+        B.left = D;
+        B.right = E;
+        E.right = H;
+        H.left = I;
+        return B;
+    }
+
+    public Node BuildTree3(){
+        Node A = new Node('A');
+        Node B = new Node('B');
+        Node C = new Node('C');
+
+        A.left = B;
+        A.right = C;
+        return A;
+    }
+
+    //判断两棵二叉树是否相同？<对应节点的值要相同，结构也要相同>
+    public boolean isSameTree(Node p,Node q){
+        if ((p == null && q != null ) || (p != null && q == null)){
+            return false;
+        }
+        if (p == null && q == null){
+            return true;
+        }
+        if (p.value != q.value){
+            return false;
+        }
+        return isSameTree(p.left,q.left)&&isSameTree(p.right,q.right);
+
+    }
+
+    //判断二叉树t是否是s的子树
+    public boolean isSubTree(Node s,Node t){
+        if (s == null || t == null) {
+            return false;
+        }
+        if (isSameTree(s,t)){
+            return true;
+        }
+        return isSubTree(s.left,t) || isSubTree(s.right,t);
+    }
+
+    public Node BuildTree4(){
+        Node A = new Node('A');
+        Node B = new Node('B');
+        Node C = new Node('C');
+        Node D = new Node('D');
+        Node E = new Node('E');
+        Node F = new Node('F');
+        Node G = new Node('G');
+        Node H = new Node('H');
+        Node I = new Node('I');
+
+        A.right = B;
+        B.right = C;
+        C.right = D;
+        D.right = E;
+        E.right = F;
+        G.left = H;
+        G.right = I;
+        return A;
+    }
+    public Node BuildTree5(){
+        Node D = new Node('D');
+        Node E = new Node('E');
+        Node F = new Node('F');
+        Node G = new Node('G');
+        Node H = new Node('H');
+        Node I = new Node('I');
+
+
+        D.right = E;
+        E.right = F;
+        G.left = H;
+        G.right = I;
+        return D;
+    }
+
+    //判断平衡二叉树，左右子树高度差<2
+        /*
+        * 1、判断左右两树的高度差是否小于2；
+        * 2、递归左树是否平衡
+        * 3、递归右树是否平衡
+        * 三点同时成立，该树平衡
+        * */
+    public boolean isBalanced(Node root){
+        if (root == null){
+            return true;
+        }
+        int leftHeiget = getHeight(root.left);
+        int rightHeiget = getHeight(root.right);
+        return Math.abs(leftHeiget-rightHeiget )<2 &&isBalanced(root.left) &&isBalanced(root.right);
+    }
+
+    //判断是否镜像二叉树
+    public boolean isSymmetric(Node root) {
+        if (root == null){
+            return true;
+        }
+        return isSymmetricChild(root.left,root.right);
+    }
+    public boolean isSymmetricChild(Node leftTree,Node rightTree) {
+        if ((leftTree!=null&&rightTree==null) || (leftTree==null&&rightTree!=null)){
+            return false;
+        }
+        if (leftTree==null&&rightTree==null){
+            return true;
+        }
+        if (leftTree.value == rightTree.value){
+            return isSymmetricChild(leftTree.left,rightTree.right) && isSymmetricChild(leftTree.right,rightTree.left);
+        }
+        return false;
+
+    }
 }

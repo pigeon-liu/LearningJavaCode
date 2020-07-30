@@ -172,7 +172,7 @@ public class BinaryTree {
         //递归两次root.left和root.right，执行时间超出限制
         //return getHeight(root.left)>getHeight(root.right) ? getHeight(root.left)+1 : getHeight(root.right)+1;
     }
-    
+
     //查找val所在节点
         /*
         *按照 根 -> 左子树 -> 右子树的顺序进行查找

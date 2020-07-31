@@ -142,4 +142,34 @@ public class BinaryTree {
         }
     }
 
+    // 二叉树搜索树转换成排序双向链表
+    public Node prev = null;
+
+    public void ConvertChild(Node pRoot) {
+        //修改二叉树结构 --》 排好序的双向链表
+        if (pRoot == null){
+            return;
+        }
+        ConvertChild(pRoot.left);
+        pRoot.left = prev;
+        if (prev != null){
+            prev.right = pRoot;
+        }
+        prev = pRoot;
+        ConvertChild(pRoot.right);
+    }
+
+    public Node Convert(Node pRootOfTree) {
+        if (pRootOfTree == null){
+            return null;
+        }
+        Node head = pRootOfTree;
+        ConvertChild(pRootOfTree);
+        while (head.left != null){
+            head = head.left;
+        }
+        return head;
+    }
+
+
 }

@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Stack;
 
 public class TestSort {
 
@@ -156,22 +157,126 @@ public class TestSort {
         }
     }
 
-    public static void main1(String[] args) {
-        int[] array = new int[10_0000];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = i;
+    /**
+     * 时间复杂度：
+     *     nlogn         最坏情况： 1 2 3 4 5 6 7 8 9 / 9 8 7 6 5 4 3 2 1   O(n^2)
+     * 空间复杂度：
+     *     logn           O(n)
+     * 稳定性：不稳定
+     * @param array
+     * @param low
+     * @param high
+     * @return
+     */
+    public static int partition(int[] array,int low,int high) {
+        int tmp = array[low];
+        while (low < high) {
+            while (low < high && array[high] >= tmp) {
+                high--;
+            }
+            array[low] = array[high];
+            while (low < high && array[low] <= tmp) {
+                low++;
+            }
+            array[high] = array[low];
+        }
+        array[low] = tmp;
+        return low;
+    }
+
+    public static void insert_sort(int[] array,int start,int end) {
+        int tmp = 0;
+        for (int i = start+1; i <= end; i++) {
+            tmp = array[i];
+            int j;
+            for (j = i-1; j >= start ; j--) {
+                if(array[j] > tmp) {
+                    array[j+1] = array[j];
+                }else {
+                    break;
+                }
+            }
+            array[j+1] = tmp;
+        }
+    }
+
+    public static void swap(int[] array,int i,int j) {
+        int tmp = array[i];
+        array[i] = array[j];
+        array[j] = tmp;
+    }
+
+    public static void three_num_mid(int[] array,int left,int right) {
+        //array[mid] <= array[left] <= array[right]
+        int mid = (left+right)/2;
+        if(array[left] > array[right]) {
+            swap(array,left,right);
+        }
+        if(array[mid] > array[left]) {
+            swap(array,left,mid);
 
         }
-        long start = System.currentTimeMillis();
-        heapSort(array);
-        long end =  System.currentTimeMillis();
-        System.out.println(end-start);
+        if(array[mid] > array[right]) {
+            swap(array,mid,right);
+        }
     }
 
-    public static void main(String[] args) {
-        int[] array = {12,5,9,34,6,8,33,56,7,4,22,55,77};
-        System.out.println(Arrays.toString(array));
-        bubbleSort(array);
-        System.out.println(Arrays.toString(array));
+    public static void quick(int[] array,int left,int right) {
+        if(left >= right) {
+            return;
+        }
+        //4 5 6  优化方式一：当待排序序列的数据个数小于等于100的时候，用直接插入排序。
+        if(right-left+1 <= 100) {
+            insert_sort(array,left,right);
+            return;
+        }
+
+        three_num_mid(array,left,right);
+
+        int par = partition(array, left, right);
+        quick(array,left,par-1);
+        quick(array,par+1,right);
     }
+
+    public static void quickSort1(int[] array) {
+        quick(array,0,array.length-1);
+    }
+
+    /**
+     * 非递归实现快速排序
+     * @param array
+     */
+    public static void quickSort(int[] array) {
+        Stack<Integer> stack = new Stack<>();
+
+        int left = 0;
+        int right = array.length-1;
+
+        int par = partition(array,left,right);
+
+        if(par > left+1) {
+            stack.push(left);
+            stack.push(par-1);
+        }
+        if(par < right-1) {
+            stack.push(par+1);
+            stack.push(right);
+        }
+        while (!stack.empty()) {
+            right = stack.pop();
+            left = stack.pop();
+            par =  partition(array,left,right);
+
+            if(par > left+1) {
+                stack.push(left);
+                stack.push(par-1);
+            }
+            if(par < right-1) {
+                stack.push(par+1);
+                stack.push(right);
+            }
+        }
+
+    }
+
 }

@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Stack;
 
 public class Sort {
     /**
@@ -181,12 +182,45 @@ public class Sort {
             insert_sort(arr, left, right);
             return;
         }
+
+        //数组有序优化，三数取中
+        three_num_mid(arr,left,right);
+
         int par  = partition(arr,left,right);
         quick(arr, left, par-1);
         quick(arr,par+1,right);
 
     }
 
+    //交换
+    public static void swap(int[] arr ,int i, int j){
+        int tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
+    }
+    //三数取中
+    public static void three_num_mid(int[] arr,int left,int right){
+        //arr[mid]<=arr[left]<=arr[right]
+        int mid = (left+right)/2;
+        if (arr[left] > arr[right]){
+           /* int tmp = arr[right];
+            arr[right] = arr[left];
+            arr[left] = tmp;*/
+           swap(arr,left,right);
+        }
+        if (arr[mid] > arr[left]){
+           /*int tmp = arr[left];
+           arr[left] = arr[mid];
+           arr[mid] = tmp;*/
+            swap(arr,mid,left);
+        }
+        if (arr[mid] > arr[right]){
+            /*int tmp = arr[right];
+            arr[right] = arr[mid];
+            arr[mid] = tmp;*/
+            swap(arr,mid,right);
+        }
+    }
     public static void insert_sort(int[] arr,int start,int end){
         int tmp = 0;
         for (int i = start+1;i<=end;i++){
@@ -203,9 +237,152 @@ public class Sort {
         }
      }
 
+    /**
+     * 非递归实现快速排序
+     * @param arr
+     */
+     public static void quickSort1(int[] arr){
+         Stack<Integer> stack = new Stack<>();
 
+         int left = 0;
+         int right = arr.length-1;
+         int par = partition(arr,left,right);
 
-    public static void main4(String[] args) {
+         if (par > left+1){
+             stack.push(left);
+             stack.push(par-1);
+         }
+         if (par < right-1){
+             stack.push(par+1);
+             stack.push(right);
+         }
+         while (!stack.empty()){
+             right = stack.pop();
+             left = stack.pop();
+             par = partition(arr,left,right);
+
+             if (par > left+1){
+                 stack.push(left);
+                 stack.push(par-1);
+             }
+             if (par < right-1){
+                 stack.push(par+1);
+                 stack.push(right);
+             }
+         }
+    }
+
+    public static void mergeSortInternal(int[] arr,int left,int right){
+         if (left >= right){
+             return;
+         }
+         //分解
+         int mid = (left+right)/2;
+         //int mid = (left+right)>>>1;   无符号右移一位，相当于除二
+         mergeSortInternal(arr,left,mid);
+         mergeSortInternal(arr,mid+1,right);
+         //合并
+         merge(arr,left,mid,right);
+    }
+
+    //归并
+    public static void merge(int[] arr,int left,int mid,int right){
+        int s1 = left;
+        int s2 = mid+1;
+        int len = right-left+1;
+        int[] ret = new int[len];
+        int i = 0;  //用来表示ret数组的下标
+
+        while (s1 <= mid && s2 <= right){
+            if (arr[s1] <= arr[s2]){
+                /*ret[i] = arr[s1];
+                i++;
+                s1++;*/
+                ret[i++] = arr[s1++];
+            } else {
+               /* ret[i] = arr[s2];
+                i++;
+                s2++;*/
+                ret[i++] = arr[s2++];
+            }
+        }
+
+        while (s1 <= mid){
+            ret[i++] = arr[s1++];
+        }
+
+        while (s2<=right){
+            ret[i++] = arr[s2++];
+        }
+
+        for (int j = 0;j <= ret.length-1;j++){
+            arr[j+left] = ret[j];
+        }
+    }
+
+    /**
+     * 归并排序
+     * @param arr
+     */
+    public static void mergeSort1(int[] arr){
+         mergeSortInternal(arr,0,arr.length-1);
+    }
+
+    /**
+     * 非递归实现归并排序
+     * @param arr
+     */
+    public static void mergeSort(int[] arr){
+        for (int gap = 1; gap<arr.length; gap*=2){
+            mergeNor(arr,gap);
+        }
+
+    }
+
+    public static void mergeNor(int[] arr,int gap){
+        int[] ret = new int[arr.length];
+        int k = 0; //ret的下标
+        int s1 = 0;
+        int e1 = s1+gap-1;
+        int s2 = e1+1;
+        int e2 = s2+gap-1 < arr.length ? s2+gap-1 :arr.length-1;
+
+        //肯定有两个归并段
+        while (s2 < arr.length){
+            //对应s1和s2位进行比较
+            while (s1<=e1 && s2<=e2) {
+                if (arr[s1] > arr[s2]) {
+                    ret[k++] = arr[s2++];
+                } else {
+                    ret[k++] = arr[s1++];
+                }
+            }
+            //在比较的过程中你肯定有一个归并段先走完
+            //判断是哪个没走完，把剩下的数据拷贝到结果数组当中
+            while (s2 <= e2) {
+                ret[k++] = arr[s2++];
+            }
+            while (s1 <= e1) {
+                ret[k++] = arr[s1++];
+            }
+
+            //接着确定新的s1、e1、s2、e2
+            s1 = e2+1;
+            e1 = s1+gap-1;
+            s2 = e1+1 ;
+            e2 = s2+gap-1 < arr.length ? s2+gap-1 :arr.length-1;
+        }
+        //判断是否有另外的归并段
+        while (s1 <= arr.length-1){
+            ret[k++] = arr[s1++];
+        }
+
+        for (int i = 0;i<ret.length;i++){
+            arr[i] = ret[i];
+        }
+    }
+
+    public static void main(String[] args) {
         int[] arr2 = {12,5,9,34,6,8,33,56,89,0,7,4,22,55,77};
         //selectSort(arr2);
 
@@ -214,7 +391,10 @@ public class Sort {
 
         //HeapSort(arr2);
 
-        quickSort(arr2);
+        //quickSort(arr2);
+        //quickSort1(arr2);
+
+        mergeSort(arr2);
         System.out.println(Arrays.toString(arr2));
     }
 
@@ -230,18 +410,19 @@ public class Sort {
 
 
 
-    public static void main(String[] args) {
+    public static void main2(String[] args) {
         int[] arr = new int[10_000];
         Random random = new Random();
         for (int i = 0 ; i < arr.length;i++){
-            //arr[i] = i;
-            arr[i] = random.nextInt(10_000);
+            arr[i] = i;
+            //arr[i] = random.nextInt(10_000);
         }
 
         //时间差
         long start= System.currentTimeMillis();
         //selectSort(arr);
-        quickSort(arr);
+        //quickSort(arr);
+        quickSort1(arr);
         long end = System.currentTimeMillis();
         System.out.println(end-start);
     }

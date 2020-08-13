@@ -1,6 +1,5 @@
 package Test;
 
-import java.beans.IntrospectionException;
 import java.util.*;
 
 public class TestDemo {
@@ -29,6 +28,7 @@ public class TestDemo {
             }
         }
 
+        //遍历所有的key-value映射关系存放到entry中。 Map.Entry<Integer,Integer>为映射关系类型
         for (Map.Entry<Integer,Integer> entry : map.entrySet()){
             System.out.println(entry.getKey()+" 这个数字出现了"+entry.getValue()+"次");
         }

@@ -1,5 +1,5 @@
-import java.awt.datatransfer.StringSelection;
-import java.util.HashMap;
+package plan_8_31;
+
 import java.util.Scanner;
 
 public class StringTest {

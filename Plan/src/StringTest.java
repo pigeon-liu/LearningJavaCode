@@ -1,8 +1,8 @@
 import java.awt.datatransfer.StringSelection;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class StringTest {
-
     /**
      * 算法字符串中找出最长的数字串。
      */

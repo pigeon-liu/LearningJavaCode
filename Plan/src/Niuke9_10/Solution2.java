@@ -13,12 +13,26 @@ public class Solution2 {
         //遍历数组判断是否有重复数字
         ArrayList<Character> list = new ArrayList<>();
         for(int i = 0;i<str.length();i++){
-            list.add(chars[i]);
+            //标志数组中第一次出现该字符
+            int count = 0;
+            // 遍历后面的字符歘，判断是否有重复字符出现
             for(int j = i+1;j<str.length();j++){
-                if (list.contains(chars[j])){
+                //如果列表中已经包含该字符串，在表示数组中已经有该字符，直接返回
+                if (list.contains(chars[i])){
+                    count = 1;
+                    break;
+                }
+                // 在遍历后面的字符串，判断是否有重复字符
+                if(chars[i] == chars[j]){
+                    count = 1;
                     break;
                 }
             }
+            // 如果count==0则表示该字符中出现过一次
+            if(count == 0){
+                return i;
+            }
+            list.add(chars[i]);
         }
         return -1;
     }

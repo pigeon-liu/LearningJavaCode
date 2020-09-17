@@ -1,6 +1,8 @@
 package Niuke9_15;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Solution6 {
     public void func(int[] arr,int left,int right){

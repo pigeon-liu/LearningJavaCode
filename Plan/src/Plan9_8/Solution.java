@@ -27,4 +27,5 @@ public class Solution {
         sum = flg ? sum : sum * (-1);
         return sum;
     }
+
 }
